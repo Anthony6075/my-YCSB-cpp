@@ -3,7 +3,7 @@
 cd $(dirname $0)
 
 TIMES=3
-ALL_DBS='hashdb leveldb rocksdb'
+ALL_DBS='pebblesdb'
 ALL_WORKLOADS='a b c d f'
 
 TMP_LOG_FILE=./a_learning/ycsb-tmp.log

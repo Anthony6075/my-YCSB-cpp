@@ -20,10 +20,28 @@ HashDB_LDFLAGS='-L../myself/hashdb/build -lgflags -L/home/anthony/master/myself/
 RocksDB_CXXFLAGS='-I../rocksdb/include'
 RocksDB_LDFLAGS='-L../rocksdb -lzstd -lz'
 
-make \
+WiredTiger_CXXFLAGS='-I../wiredtiger/build/include/ -I../wiredtiger/src/include/'
+WiredTiger_LDFLAGS='-L/home/anthony/master/wiredtiger/build'
+
+Sqlite_CXXFLAGS='-I../sqlite/build'
+Sqlite_LDFLAGS='-L/home/anthony/master/sqlite/build/.libs'
+
+PebblesDB_CXXFLAGS='-I/home/anthony/master/pebblesdb/src/include'
+PebblesDB_LDFLAGS='-L/home/anthony/master/pebblesdb/src/.libs'
+
+
+if [[ "$1" == "p" ]] ; then
+    make \
+    BIND_PEBBLESDB=1 \
+    EXTRA_CXXFLAGS="$PebblesDB_CXXFLAGS" \
+    EXTRA_LDFLAGS="$PebblesDB_LDFLAGS"
+else
+    make \
     BIND_LEVELDB=1 \
     BIND_HASHDB=1 \
     BIND_ROCKSDB=1 \
-    EXTRA_CXXFLAGS="$LevelDB_CXXFLAGS $HashDB_CXXFLAGS $RocksDB_CXXFLAGS" \
-    EXTRA_LDFLAGS="$LevelDB_LDFLAGS $HashDB_LDFLAGS $RocksDB_LDFLAGS"
-
+    BIND_WIREDTIGER=1 \
+    BIND_SQLITE=1 \
+    EXTRA_CXXFLAGS="$LevelDB_CXXFLAGS $HashDB_CXXFLAGS $RocksDB_CXXFLAGS $WiredTiger_CXXFLAGS $Sqlite_CXXFLAGS" \
+    EXTRA_LDFLAGS="$LevelDB_LDFLAGS $HashDB_LDFLAGS $RocksDB_LDFLAGS $WiredTiger_LDFLAGS $Sqlite_LDFLAGS"
+fi

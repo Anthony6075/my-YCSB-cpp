@@ -67,6 +67,11 @@ ifeq ($(BIND_HASHDB), 1)
 	SOURCES += $(wildcard hashdb/*.cc)
 endif
 
+ifeq ($(BIND_PEBBLESDB), 1)
+	LDFLAGS += -lpebblesdb
+	SOURCES += $(wildcard pebblesdb/*.cc)
+endif
+
 CXXFLAGS += -std=c++17 -Wall -pthread $(EXTRA_CXXFLAGS) -I./
 LDFLAGS += $(EXTRA_LDFLAGS) -lpthread
 SOURCES += $(wildcard core/*.cc)

@@ -184,6 +184,7 @@ void SqliteDB::Cleanup() {
 
   if (--ref_cnt_ == 0) {
     int rc = sqlite3_close(db_);
+    if (rc != SQLITE_OK);
     assert(rc == SQLITE_OK);
   }
 }
