@@ -3,13 +3,16 @@
 cd $(dirname $0)
 
 TIMES=3
-ALL_DBS='pebblesdb'
-ALL_WORKLOADS='a b c d f'
+ALL_DBS='hashdb rocksdb'
+ALL_WORKLOADS='a'
 
-TMP_LOG_FILE=./a_learning/ycsb-tmp.log
 DATE_TIME=$(date '+%y%m%d_%H%M%S')
-RUN_LOG_FILE=./a_learning/run.log.$DATE_TIME
-RESULT_FILE=./a_learning/result.$DATE_TIME
+mkdir -p ./a_learning/"$DATE_TIME"
+TMP_LOG_FILE=./a_learning/"$DATE_TIME"/ycsb-tmp.log
+RUN_LOG_FILE=./a_learning/"$DATE_TIME"/run.log
+RESULT_FILE=./a_learning/"$DATE_TIME"/result
+
+touch "$RUN_LOG_FILE" "$RESULT_FILE"
 
 for workload in $ALL_WORKLOADS ; do
     for db in $ALL_DBS ; do

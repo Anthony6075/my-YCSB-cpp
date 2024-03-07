@@ -15,19 +15,19 @@ LevelDB_CXXFLAGS='-I../leveldb/include'
 LevelDB_LDFLAGS='-L../leveldb/build -lsnappy'
 
 HashDB_CXXFLAGS=''
-HashDB_LDFLAGS='-L../myself/hashdb/build -lgflags -L/home/anthony/master/myself/hashdb/thirdparty/all_lib/ -l:libbf.a'
+HashDB_LDFLAGS='-L../myself/hashdb/build -lgflags -Wl,-rpath=/home/anthony/master/myself/hashdb/build'
 
 RocksDB_CXXFLAGS='-I../rocksdb/include'
 RocksDB_LDFLAGS='-L../rocksdb -lzstd -lz'
 
 WiredTiger_CXXFLAGS='-I../wiredtiger/build/include/ -I../wiredtiger/src/include/'
-WiredTiger_LDFLAGS='-L/home/anthony/master/wiredtiger/build'
+WiredTiger_LDFLAGS='-L/home/anthony/master/wiredtiger/build -Wl,-rpath=/home/anthony/master/wiredtiger/build'
 
 Sqlite_CXXFLAGS='-I../sqlite/build'
 Sqlite_LDFLAGS='-L/home/anthony/master/sqlite/build/.libs'
 
 PebblesDB_CXXFLAGS='-I/home/anthony/master/pebblesdb/src/include'
-PebblesDB_LDFLAGS='-L/home/anthony/master/pebblesdb/src/.libs'
+PebblesDB_LDFLAGS='-L/home/anthony/master/pebblesdb/src/.libs -Wl,-rpath=/home/anthony/master/pebblesdb/src/.libs'
 
 
 if [[ "$1" == "p" ]] ; then

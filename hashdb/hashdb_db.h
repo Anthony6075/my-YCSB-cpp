@@ -5,6 +5,7 @@
 #include "utils/properties.h"
 
 #include "hashdb/hashdb.h"
+#include "hashdb/flags.h"
 
 #include <string>
 #include <vector>
