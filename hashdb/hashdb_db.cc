@@ -35,6 +35,38 @@ const std::string PROP_DESTROY_DEFAULT = "false";
 //   const std::string PROP_BLOCK_RESTART_INTERVAL =
 //   "hashdb.block_restart_interval"; const std::string
 //   PROP_BLOCK_RESTART_INTERVAL_DEFAULT = "0";
+
+const std::string PROP_hashdb_files_directory = "hashdb.hashdb_files_directory";
+const std::string PROP_hashdb_data_files_directory = "hashdb.hashdb_data_files_directory";
+const std::string PROP_hashdb_index_files_directory = "hashdb.hashdb_index_files_directory";
+const std::string PROP_hashdb_slots_map_size = "hashdb.hashdb_slots_map_size";
+const std::string PROP_hashdb_foreground_threads_num = "hashdb.hashdb_foreground_threads_num";
+const std::string PROP_hashdb_background_threads_num = "hashdb.hashdb_background_threads_num";
+
+const std::string PROP_blob_approximate_size = "hashdb.blob_approximate_size";
+const std::string PROP_blob_write_buffer_size = "hashdb.blob_write_buffer_size";
+const std::string PROP_blob_gc_min_utility_threshold = "hashdb.blob_gc_min_utility_threshold";
+
+const std::string PROP_gc_enable = "hashdb.gc_enable";
+const std::string PROP_gc_check_every_some_writes = "hashdb.gc_check_every_some_writes";
+const std::string PROP_gc_enable_data_files_gc = "hashdb.gc_enable_data_files_gc";
+const std::string PROP_gc_trigger_min_blob_num = "hashdb.gc_trigger_min_blob_num";
+const std::string PROP_gc_enable_cache_evict = "hashdb.gc_enable_cache_evict";
+const std::string PROP_gc_cache_max_threshold = "hashdb.gc_cache_max_threshold";
+const std::string PROP_gc_max_evict_slot_num_per_round = "hashdb.gc_max_evict_slot_num_per_round";
+const std::string PROP_gc_enable_index_colddown = "hashdb.gc_enable_index_colddown";
+const std::string PROP_gc_max_colddown_index_slot_num_per_round = "hashdb.gc_max_colddown_index_slot_num_per_round";
+
+const std::string PROP_bloom_filters_num = "hashdb.bloom_filters_num";
+const std::string PROP_bloom_filters_false_positive_rate = "hashdb.bloom_filters_false_positive_rate";
+const std::string PROP_bloom_filters_elements_num = "hashdb.bloom_filters_elements_num";
+
+const std::string PROP_main_key_range = "hashdb.main_key_range";
+const std::string PROP_main_write_key_times = "hashdb.main_write_key_times";
+const std::string PROP_main_record_size = "hashdb.main_record_size";
+const std::string PROP_main_key_size = "hashdb.main_key_size";
+const std::string PROP_main_threads_num = "hashdb.main_threads_num";
+
 } // namespace
 
 namespace ycsbc {
@@ -89,11 +121,138 @@ void HashdbDB::Init() {
         throw utils::Exception("HashDB db path is missing");
     }
 
+    SetGflags(props);
+
     if (props.GetProperty(PROP_DESTROY, PROP_DESTROY_DEFAULT) == "true") {
         hashdb::DestoryHashDB(db_path);
     }
 
     hashdb::OpenHashDB(&db_);
+}
+
+void HashdbDB::SetGflags(const utils::Properties& props) {
+    std::string temp;
+    
+    temp = props.GetProperty(PROP_hashdb_files_directory, "");
+    if (!temp.empty()) {
+        hashdb::FLAGS_hashdb_files_directory = temp;
+    }
+
+    temp = props.GetProperty(PROP_hashdb_data_files_directory, "");
+    if (!temp.empty()) {
+        hashdb::FLAGS_hashdb_data_files_directory = temp;
+    }
+
+    temp = props.GetProperty(PROP_hashdb_index_files_directory, "");
+    if (!temp.empty()) {
+        hashdb::FLAGS_hashdb_index_files_directory = temp;
+    }
+
+    temp = props.GetProperty(PROP_hashdb_slots_map_size, "");
+    if (!temp.empty()) {
+        hashdb::FLAGS_hashdb_slots_map_size = std::stoull(temp);
+    }
+
+    temp = props.GetProperty(PROP_hashdb_foreground_threads_num, "");
+    if (!temp.empty()) {
+        hashdb::FLAGS_hashdb_foreground_threads_num = std::stoull(temp);
+    }
+
+    temp = props.GetProperty(PROP_hashdb_background_threads_num, "");
+    if (!temp.empty()) {
+        hashdb::FLAGS_hashdb_background_threads_num = std::stoull(temp);
+    }
+
+    temp = props.GetProperty(PROP_blob_approximate_size, "");
+    if (!temp.empty()) {
+        hashdb::FLAGS_blob_approximate_size = std::stoull(temp);
+    }
+
+    temp = props.GetProperty(PROP_blob_write_buffer_size, "");
+    if (!temp.empty()) {
+        hashdb::FLAGS_blob_write_buffer_size = std::stoull(temp);
+    }
+
+    temp = props.GetProperty(PROP_blob_gc_min_utility_threshold, "");
+    if (!temp.empty()) {
+        hashdb::FLAGS_blob_gc_min_utility_threshold = std::stod(temp);
+    }
+
+    temp = props.GetProperty(PROP_gc_enable, "");
+    if (!temp.empty()) {
+        if (temp == "true") {
+            hashdb::FLAGS_gc_enable = true;
+        } else if (temp == "false") {
+            hashdb::FLAGS_gc_enable = false;
+        }
+    }
+
+    temp = props.GetProperty(PROP_gc_check_every_some_writes, "");
+    if (!temp.empty()) {
+        hashdb::FLAGS_gc_check_every_some_writes = std::stoull(temp);
+    }
+
+    temp = props.GetProperty(PROP_gc_enable_data_files_gc, "");
+    if (!temp.empty()) {
+        if (temp == "true") {
+            hashdb::FLAGS_gc_enable_data_files_gc = true;
+        } else if (temp == "false") {
+            hashdb::FLAGS_gc_enable_data_files_gc = false;
+        }
+    }
+
+    temp = props.GetProperty(PROP_gc_trigger_min_blob_num, "");
+    if (!temp.empty()) {
+        hashdb::FLAGS_gc_trigger_min_blob_num = std::stoull(temp);
+    }
+
+    temp = props.GetProperty(PROP_gc_enable_cache_evict, "");
+    if (!temp.empty()) {
+        if (temp == "true") {
+            hashdb::FLAGS_gc_enable_cache_evict = true;
+        } else if (temp == "false") {
+            hashdb::FLAGS_gc_enable_cache_evict = false;
+        }
+    }
+
+    temp = props.GetProperty(PROP_gc_cache_max_threshold, "");
+    if (!temp.empty()) {
+        hashdb::FLAGS_gc_cache_max_threshold = std::stoull(temp);
+    }
+
+    temp = props.GetProperty(PROP_gc_max_evict_slot_num_per_round, "");
+    if (!temp.empty()) {
+        hashdb::FLAGS_gc_max_evict_slot_num_per_round = std::stoull(temp);
+    }
+
+    temp = props.GetProperty(PROP_gc_enable_index_colddown, "");
+    if (!temp.empty()) {
+        if (temp == "true") {
+            hashdb::FLAGS_gc_enable_index_colddown = true;
+        } else if (temp == "false") {
+            hashdb::FLAGS_gc_enable_index_colddown = false;
+        }
+    }
+
+    temp = props.GetProperty(PROP_gc_max_colddown_index_slot_num_per_round, "");
+    if (!temp.empty()) {
+        hashdb::FLAGS_gc_max_colddown_index_slot_num_per_round = std::stoull(temp);
+    }
+
+    temp = props.GetProperty(PROP_bloom_filters_num, "");
+    if (!temp.empty()) {
+        hashdb::FLAGS_bloom_filters_num = std::stoull(temp);
+    }
+
+    temp = props.GetProperty(PROP_bloom_filters_false_positive_rate, "");
+    if (!temp.empty()) {
+        hashdb::FLAGS_bloom_filters_false_positive_rate = std::stod(temp);
+    }
+
+    temp = props.GetProperty(PROP_bloom_filters_elements_num, "");
+    if (!temp.empty()) {
+        hashdb::FLAGS_bloom_filters_elements_num = std::stoull(temp);
+    }
 }
 
 void HashdbDB::Cleanup() {

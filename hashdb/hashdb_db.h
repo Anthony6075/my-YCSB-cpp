@@ -52,6 +52,8 @@ private:
     enum LdbFormat { kSingleEntry, kRowMajor, kColumnMajor };
     LdbFormat format_;
 
+    void SetGflags(const utils::Properties& p);
+
     // void GetOptions(const utils::Properties &props, leveldb::Options *opt);
     void SerializeRow(const std::vector<Field> &values, std::string *data);
     void DeserializeRowFilter(std::vector<Field> *values,
