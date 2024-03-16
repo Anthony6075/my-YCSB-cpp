@@ -3,14 +3,16 @@
 cd $(dirname $0)
 
 TIMES=3
-ALL_DBS='hashdb rocksdb'
-ALL_WORKLOADS='a'
+ALL_DBS='hashdb leveldb rocksdb'
+ALL_WORKLOADS='c'
 
 DATE_TIME=$(date '+%y%m%d_%H%M%S')
 mkdir -p ./a_learning/"$DATE_TIME"
 TMP_LOG_FILE=./a_learning/"$DATE_TIME"/ycsb-tmp.log
 RUN_LOG_FILE=./a_learning/"$DATE_TIME"/run.log
 RESULT_FILE=./a_learning/"$DATE_TIME"/result
+
+echo "$DATE_TIME"
 
 touch "$RUN_LOG_FILE" "$RESULT_FILE"
 
@@ -30,6 +32,10 @@ for workload in $ALL_WORKLOADS ; do
             tmp=$(grep 'Run throughput(ops/sec): ' $TMP_LOG_FILE)
             run_tp=${tmp#'Run throughput(ops/sec): '}
 
+            if [[ -z "$run_tp" ]] ; then
+                run_tp=0
+            fi
+
             load_throughput=$(python -c "print($load_throughput + $load_tp)")
             run_throughput=$(python -c "print($run_throughput + $run_tp)")
 
@@ -48,3 +54,5 @@ for workload in $ALL_WORKLOADS ; do
 
     done
 done
+
+python3 to_chart.py "$RESULT_FILE"

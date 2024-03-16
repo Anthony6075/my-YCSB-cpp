@@ -25,5 +25,5 @@ fi
         -P ../$DB/$DB.properties \
         -s
 
-rm -rf /tmp/ycsb*
+rm -rf ./ycsb-*
 rm -rf ./hashdb
