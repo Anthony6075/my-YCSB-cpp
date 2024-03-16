@@ -10,8 +10,8 @@
 #include "core/db.h"
 #include "utils/properties.h"
 
-#include "wiredtiger.h"
-#include "wiredtiger_ext.h"
+#include "wiredtiger/wiredtiger.h"
+#include "wiredtiger/wiredtiger_ext.h"
 
 namespace ycsbc {
 
