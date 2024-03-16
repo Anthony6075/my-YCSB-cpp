@@ -10,3 +10,6 @@ compile_commands.json
 .cache/
 
 a*_learning/
+
+thirdparty/local_libs/librocksdb.so*
+thirdparty/remote_libs/librocksdb.so*

@@ -6,12 +6,20 @@ LOCAL_OR_REMOTE=$1
 DB_TYPE=$2
 
 if [[ $LOCAL_OR_REMOTE == 'local' ]] ; then
-    general_LDFLAGS='-Lthirdparty/local_libs -Wl,-rpath=$$\{ORIGIN\}/thirdparty/local_libs'
+    thirdparty_libs=thirdparty/local_libs
 else
-    general_LDFLAGS='-Lthirdparty/remote_libs -Wl,-rpath=$$\{ORIGIN\}/thirdparty/remote_libs'
+    thirdparty_libs=thirdparty/remote_libs
 fi
 
+cd $thirdparty_libs
+cat librocksdb/xa{a,b,c,d} > librocksdb.so.8.9.0
+ln -sf librocksdb.so.8.9.0 librocksdb.so.8.9
+ln -sf librocksdb.so.8.9.0 librocksdb.so.8
+ln -sf librocksdb.so.8.9.0 librocksdb.so
+cd -
+
 general_CXXFLAGS='-Ithirdparty/include'
+general_LDFLAGS="-L$thirdparty_libs -Wl,-rpath=\$\$\{ORIGIN\}/$thirdparty_libs"
 
 LevelDB_LDFLAGS='-lsnappy'
 
