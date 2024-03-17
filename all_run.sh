@@ -4,7 +4,7 @@ cd $(dirname $0)
 
 TIMES=3
 ALL_DBS='hashdb leveldb rocksdb'
-ALL_WORKLOADS='c'
+ALL_WORKLOADS='a b c d f'
 
 DATE_TIME=$(date '+%y%m%d_%H%M%S')
 mkdir -p ./a_learning/"$DATE_TIME"
