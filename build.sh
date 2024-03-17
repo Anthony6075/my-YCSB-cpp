@@ -9,10 +9,14 @@ if [[ $LOCAL_OR_REMOTE == 'local' ]] ; then
     thirdparty_libs=thirdparty/local_libs
 else
     thirdparty_libs=thirdparty/remote_libs
+    apt install libgflags-dev
+    apt install libzstd-dev
+    apt install libsnappy-dev
+    apt install swig
 fi
 
 cd $thirdparty_libs
-cat librocksdb/xa{a,b,c,d} > librocksdb.so.8.9.0
+cat librocksdb/xa* > librocksdb.so.8.9.0
 ln -sf librocksdb.so.8.9.0 librocksdb.so.8.9
 ln -sf librocksdb.so.8.9.0 librocksdb.so.8
 ln -sf librocksdb.so.8.9.0 librocksdb.so
