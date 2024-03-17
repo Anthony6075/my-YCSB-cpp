@@ -36,8 +36,8 @@ for workload in $ALL_WORKLOADS ; do
                 run_tp=0
             fi
 
-            load_throughput=$(python -c "print($load_throughput + $load_tp)")
-            run_throughput=$(python -c "print($run_throughput + $run_tp)")
+            load_throughput=$(python3 -c "print($load_throughput + $load_tp)")
+            run_throughput=$(python3 -c "print($run_throughput + $run_tp)")
 
             echo "$ ./run.sh $db $workload" >> $RUN_LOG_FILE
             cat $TMP_LOG_FILE >> $RUN_LOG_FILE
@@ -47,8 +47,8 @@ for workload in $ALL_WORKLOADS ; do
             rm -f $TMP_LOG_FILE
         done
 
-        load_throughput=$(python -c "print(round($load_throughput / $TIMES / 1000))")
-        run_throughput=$(python -c "print(round($run_throughput / $TIMES / 1000))")
+        load_throughput=$(python3 -c "print(round($load_throughput / $TIMES / 1000))")
+        run_throughput=$(python3 -c "print(round($run_throughput / $TIMES / 1000))")
 
         echo "$workload    $db    $load_throughput    $run_throughput" >> "$RESULT_FILE"
 
