@@ -9,13 +9,17 @@ if [[ -z "$PID" ]] ; then
 fi
 
 if [[ -z "$INTERVAL" ]] ; then
-    INTERVAL='1s'
+    INTERVAL='1'
 fi
 
 STATUS_FILE=/proc/$PID/status
 OUTPUT_FILE=output.txt
 
 rm -f "$OUTPUT_FILE"
+
+DATA=$(date '+%F %R:%S')
+echo "$DATA" | tee -a "$OUTPUT_FILE"
+echo "$INTERVAL" | tee -a "$OUTPUT_FILE"
 
 while true ; do
     if [[ -f "$STATUS_FILE" ]] ; then

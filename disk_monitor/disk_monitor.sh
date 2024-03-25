@@ -18,7 +18,7 @@ WRITE_OUTPUT_FILE=write_output.txt
 
 rm -f "$READ_OUTPUT_FILE" "$WRITE_OUTPUT_FILE"
 
-DATA=$(date '+%R:%S')
+DATA=$(date '+%F %R:%S')
 echo "$DATA" | tee -a "$READ_OUTPUT_FILE" "$WRITE_OUTPUT_FILE"
 echo "$INTERVAL" | tee -a "$READ_OUTPUT_FILE" "$WRITE_OUTPUT_FILE"
 
